@@ -1,24 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
+import {useSelector, useDispatch} from 'react-redux';
+import { displayData, getValue } from './store/actions';
+import counterSlice from './store/slice';
 
+
+const styles = {
+  root:{
+    padding: '5px'
+  }
+}
 function App() {
+
+  // to get the value from global store useing useSelector hook
+  const value = useSelector(getValue);
+  const dispatch = useDispatch();
+
+  
+  const displayData =useSelector((state)=>state.data)
+  console.log(displayData);
+  const increase = ()=>{
+
+    // update global store value useing dipatch an action
+    dispatch(counterSlice.actions.increment());
+  }
+  const decrease = ()=>{
+    dispatch(counterSlice.actions.decrement());
+  }
+  const incrementByAmount = ()=>{
+    dispatch(counterSlice.actions.incrementByAmount(4));
+
+  }
+
   return (
+    <>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {value}
     </div>
+    <div onClick={increase}>increase</div>
+    <div onClick={decrease}>decrease</div>
+    <div onClick={incrementByAmount}>incrementByAmount 4</div>
+    </>
   );
 }
 
